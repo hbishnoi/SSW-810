@@ -9,23 +9,28 @@ class StudentTest(unittest.TestCase):
         """ Function that tests class Student """
         actual: list = list()
         for student in University("C:\\Users\\Himan\\Desktop\\Semester 2\\SSW 810\\HW\\Assignment")._students.values():            
-            actual.append([student._cwid, student._name, sorted(student._course.keys())])
-        expected: List[List[str, str, List[str]]] =  [['10103', 'Baldwin, C', ['CS 501', 'SSW 564', 'SSW 567', 'SSW 687']],
-            ['10115', 'Wyatt, X', ['CS 545', 'SSW 564', 'SSW 567', 'SSW 687']],
-            ['10172', 'Forbes, I', ['SSW 555', 'SSW 567']],
-            ['10175', 'Erickson, D', ['SSW 564','SSW 567','SSW 687']],
-            ['10183', 'Chapman, O', ['SSW 689']],
-            ['11399', 'Cordova, I', ['SSW 540']],
-            ['11461',  'Wright, U', ['SYS 611', 'SYS 750', 'SYS 800']],
-            ['11658','Kelly, P', ['SSW 540']],
-            ['11714', 'Morton, A', ['SYS 611', 'SYS 645']],
-            ['11788', 'Fuller, E', ['SSW 540']]]
+            # actual.append([student._cwid, student._name, student._major, sorted(student._course.keys()), student._remaining_required, \
+            #     student._remaining_electives, student._gpa])
+            actual.append(student.student_info())
+        expected: List[List[str, str, List[str]]] =  \
+            [('10103', 'Baldwin, C', 'SFEN', ['CS 501', 'SSW 564', 'SSW 567', 'SSW 687'], ['SSW 540', 'SSW 555'], [], 3.44)
+            ,('10115', 'Wyatt, X', 'SFEN', ['CS 545', 'SSW 564', 'SSW 567', 'SSW 687'], ['SSW 540', 'SSW 555'], [], 3.81),
+            ('10172', 'Forbes, I', 'SFEN', ['SSW 555', 'SSW 567'], ['SSW 540', 'SSW 564'], ['CS 501', 'CS 513', 'CS 545'], 3.88),
+            ('10175', 'Erickson, D', 'SFEN', ['SSW 564','SSW 567','SSW 687'], ['SSW 540', 'SSW 555'], ['CS 501', 'CS 513', 'CS 545'], 3.58),
+            ('10183', 'Chapman, O', 'SFEN', ['SSW 689'], ['SSW 540', 'SSW 555', 'SSW 564', 'SSW 567'], ['CS 501', 'CS 513', 'CS 545'], 4.0),
+            ('11399', 'Cordova, I', 'SYEN', ['SSW 540'], ['SYS 612', 'SYS 671', 'SYS 800'], [], 3.0),
+            ('11461',  'Wright, U', 'SYEN', ['SYS 611', 'SYS 750', 'SYS 800'], ['SYS 612', 'SYS 671'], ['SSW 540', 'SSW 565', 'SSW 810'], 3.92),
+            ('11658','Kelly, P', 'SYEN', [], ['SYS 612', 'SYS 671', 'SYS 800'], ['SSW 540', 'SSW 565', 'SSW 810'], 0.0),
+            ('11714', 'Morton, A', 'SYEN', ['SYS 611', 'SYS 645'], ['SYS 612', 'SYS 671', 'SYS 800'], ['SSW 540', 'SSW 565', 'SSW 810'], 3.0),
+            ('11788', 'Fuller, E', 'SYEN', ['SSW 540'], ['SYS 612', 'SYS 671', 'SYS 800'], [], 4.0)
+            ]
+        
         # test1: University = University("C:\\Users\\Himan\\Desktop\\Semester 2\\SSW 810\\HW\\Assignment")
         # print(actual)
         self.assertEqual(actual, expected)
 
-        with self.assertRaises(ValueError): # raises exception error
-            Student('123', 'him', 'se').store_course_grade('SSW 810', '')
+        # with self.assertRaises(ValueError): # raises exception error
+        #     Student('123', 'him', 'se').store_course_grade('SSW 810', '')
 
 class InstructorTest(unittest.TestCase):
     """ Class to check class Instructor """
@@ -50,15 +55,15 @@ class InstructorTest(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 class MajorTest(unittest.TestCase):
-    """ Class to check class Instructor """
-    def test_instructor(self) -> None:
-        """ Function that tests class Instructor """
+    """ Class to check class Major """
+    def test_major(self) -> None:
+        """ Function that tests class Major """
         actual: list = list()
         for major in University("C:\\Users\\Himan\\Desktop\\Semester 2\\SSW 810\\HW\\Assignment")._majors.values():
-            for c in major._courses:
-                actual.append([major._cwid, major._name, major._major])
-        expected: List[List[str, str, List[str]]] = [['98765', 'Einstein, A','SFEN','SSW 567', 4],
-            ['98765', 'Einstein, A','SFEN','SSW 540', 3]
+            # for c in major._major:
+            actual.append([major._major, major._required, major._electives])
+        expected: List[List[str, List[str], List[str]]] = [['SFEN', {'SSW 540', 'SSW 555', 'SSW 564', 'SSW 567'}, {'CS 501', 'CS 513', 'CS 545'}],
+            ['SYEN', {'SYS 612', 'SYS 671', 'SYS 800'}, {'SSW 540', 'SSW 565', 'SSW 810'}]]
         self.assertEqual(actual, expected)
 
 class ErrorTest(unittest.TestCase):
