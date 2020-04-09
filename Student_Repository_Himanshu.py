@@ -4,6 +4,8 @@ from prettytable import PrettyTable
 from typing import DefaultDict, Dict, Tuple, List, Iterator, Set
 from HW08_Himanshu import file_reader
 
+'''reading files and printing them in a table format'''
+
 class Student:
     """ Store everything about a single student """
     pt_hdr: List[str] = ['CWID', 'Name', 'Major', 'Completed Courses', 'Remaining Required', 'Remaining Electives', 'GPA']
@@ -16,8 +18,8 @@ class Student:
         self._name: str = name
         self._major: str = major
         self._course: Dict[str, str] = dict()
-        self._remaining_required = required
-        self._remaining_electives = electives
+        self._remaining_required: List[str] = required
+        self._remaining_electives: List[str] = electives
         self._gpa: float = 0.0 
 
     def store_course_grade(self, course: str, grade:str) -> None:
@@ -189,14 +191,14 @@ class University:
             print(pretty_table2)
             
         
-def main():
-    """ define the repositiry  """
-    stevens: University = University("C:\\Users\\Himan\\Desktop\\Semester 2\\SSW 810\\HW\\Assignment")
-    # nyu: University = University("put the path in here").
+# def main():
+#     """ define the repositiry  """
+#     stevens: University = University("C:\\Users\\Himan\\Desktop\\Semester 2\\SSW 810\\HW\\Assignment")
+#     # nyu: University = University("put the path in here").
 
-    stevens.major_prettytable()
-    stevens.student_prettytable()
-    stevens.instructor_prettytable()
+#     stevens.major_prettytable()
+#     stevens.student_prettytable()
+#     stevens.instructor_prettytable()
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

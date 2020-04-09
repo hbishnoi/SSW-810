@@ -9,10 +9,8 @@ class StudentTest(unittest.TestCase):
         """ Function that tests class Student """
         actual: list = list()
         for student in University("C:\\Users\\Himan\\Desktop\\Semester 2\\SSW 810\\HW\\Assignment")._students.values():            
-            # actual.append([student._cwid, student._name, student._major, sorted(student._course.keys()), student._remaining_required, \
-            #     student._remaining_electives, student._gpa])
             actual.append(student.student_info())
-        expected: List[List[str, str, List[str]]] =  \
+        expected: List[List[str, str, List[str], List[str], List[str], float]] =  \
             [('10103', 'Baldwin, C', 'SFEN', ['CS 501', 'SSW 564', 'SSW 567', 'SSW 687'], ['SSW 540', 'SSW 555'], [], 3.44)
             ,('10115', 'Wyatt, X', 'SFEN', ['CS 545', 'SSW 564', 'SSW 567', 'SSW 687'], ['SSW 540', 'SSW 555'], [], 3.81),
             ('10172', 'Forbes, I', 'SFEN', ['SSW 555', 'SSW 567'], ['SSW 540', 'SSW 564'], ['CS 501', 'CS 513', 'CS 545'], 3.88),
@@ -40,7 +38,7 @@ class InstructorTest(unittest.TestCase):
         for instructor in University("C:\\Users\\Himan\\Desktop\\Semester 2\\SSW 810\\HW\\Assignment")._instructors.values():
             for c in instructor._courses:
                 actual.append([instructor._cwid, instructor._name, instructor._major, c, instructor._courses[c]])
-        expected: List[List[str, str, List[str]]] = [['98765', 'Einstein, A','SFEN','SSW 567', 4],
+        expected: List[List[str, str, str, str, int]] = [['98765', 'Einstein, A','SFEN','SSW 567', 4],
             ['98765', 'Einstein, A','SFEN','SSW 540', 3],
             ['98764', 'Feynman, R','SFEN','SSW 564', 3],
             ['98764', 'Feynman, R','SFEN','SSW 687', 3],
