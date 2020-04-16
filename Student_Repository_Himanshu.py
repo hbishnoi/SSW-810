@@ -203,15 +203,15 @@ class University:
             print(pt)
             
         
-# def main():
-#     """ define the repositiry  """
-#     stevens: University = University("C:\\Users\\Himan\\Desktop\\Semester 2\\SSW 810\\HW\\Assignment 11")
-#     # nyu: University = University("put the path in here").
+def main():
+    """ define the repositiry  """
+    stevens: University = University("C:\\Users\\Himan\\Desktop\\Semester 2\\SSW 810\\HW\\Assignment 11")
+    # nyu: University = University("put the path in here").
 
-#     stevens.major_prettytable()
-#     stevens.student_prettytable()
-#     stevens.instructor_prettytable()
-#     stevens.student_grade_table_db("C:\\Users\\Himan\\Desktop\\Semester 2\\SSW 810\\HW\\Assignment 11\\HW11_db")
+    stevens.major_prettytable()
+    stevens.student_prettytable()
+    stevens.instructor_prettytable()
+    stevens.student_grade_table_db("C:\\Users\\Himan\\Desktop\\Semester 2\\SSW 810\\HW\\Assignment 11\\HW11_db")
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
