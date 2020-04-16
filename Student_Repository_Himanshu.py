@@ -3,6 +3,7 @@ from collections import defaultdict
 from prettytable import PrettyTable
 from typing import DefaultDict, Dict, Tuple, List, Iterator, Set
 from HW08_Himanshu import file_reader
+import sqlite3
 
 '''reading files and printing them in a table format'''
 
@@ -117,7 +118,7 @@ class University:
             except(FileNotFoundError) as e:
                 print(e)
             else:
-                for cwid, name, major in file_reader(directory, 3, sep = ';', header = True):
+                for cwid, name, major in file_reader(directory, 3, sep = '\t', header = True):
                     self._students[cwid] = Student(cwid, name, major, self._majors[major].get_required(), self._majors[major].get_electives())
                     # return self._students
                     # print(self._students)
@@ -129,7 +130,7 @@ class University:
             except(FileNotFoundError) as e:
                 print(e)
             else:
-                for cwid, name, major in file_reader(directory, 3, sep = '|', header = True):
+                for cwid, name, major in file_reader(directory, 3, sep = '\t', header = True):
                     self._instructors[cwid] = Instructor(cwid, name, major)
                     # print(self._instructors)
                     # return self._instructors
@@ -141,7 +142,7 @@ class University:
             except(FileNotFoundError) as e:
                 print(e)
             else:
-                for student_cwid, course, grade, instructor_cwid in file_reader(directory, 4, sep = '|', header = True):
+                for student_cwid, course, grade, instructor_cwid in file_reader(directory, 4, sep = '\t', header = True):
                     if student_cwid in self._students.keys():
                         self._students[student_cwid].store_course_grade(course, grade)
                         # return grade
@@ -189,16 +190,28 @@ class University:
                 for c in self._instructors[instructor].instructor_info():
                     pretty_table2.add_row(c)
             print(pretty_table2)
+
+        def student_grade_table_db(self, db_path) -> PrettyTable:
+            """Student_pretty_grade_df file uses the dblink to retrive data from the database and then prints it using pretty table. """
+            db: sqlite3.Connection = sqlite3.connect(db_path)
+            query:str= "select students.Name as Student_Name, students.CWID, grades.Course, grades.Grade, instructors.Name as Instructor_Name \
+                    from ((students inner join grades on students.CWID = grades.StudentCWID) \
+                    inner join instructors on grades.InstructorCWID = instructors.CWID) order by Student_Name ASC"
+            pt = PrettyTable(field_names = ["Student's Name", 'Cwid', 'Course', 'Grade', "Instructor's Name"])
+            for row in db.execute(query):
+                pt.add_row(row)
+            print(pt)
             
         
-def main():
-    """ define the repositiry  """
-    stevens: University = University("C:\\Users\\Himan\\Desktop\\Semester 2\\SSW 810\\HW\\Assignment")
-    # nyu: University = University("put the path in here").
+# def main():
+#     """ define the repositiry  """
+#     stevens: University = University("C:\\Users\\Himan\\Desktop\\Semester 2\\SSW 810\\HW\\Assignment 11")
+#     # nyu: University = University("put the path in here").
 
-    stevens.major_prettytable()
-    stevens.student_prettytable()
-    stevens.instructor_prettytable()
+#     stevens.major_prettytable()
+#     stevens.student_prettytable()
+#     stevens.instructor_prettytable()
+#     stevens.student_grade_table_db("C:\\Users\\Himan\\Desktop\\Semester 2\\SSW 810\\HW\\Assignment 11\\HW11_db")
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
