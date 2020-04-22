@@ -11,17 +11,21 @@ DB_FILE: str = "C:\\Users\\Himan\\Desktop\\Semester 2\\SSW 810\\HW\\Assignment 1
 @app.route('/HW12')
 def completed_courses():
     """extract data from database and send it to front end to show it on browser"""
+    
+    try:
+        db: sqlite3.Connection = sqlite3.connect(DB_FILE)
+    except sqlite3.OperationalError as e:
+        print(e)
+    else:
+        query: str = """select students.Name as Student_Name, students.CWID, grades.Course, grades.Grade, instructors.Name as Instructor_Name \
+                    from ((students inner join grades on students.CWID = grades.StudentCWID) \
+                    inner join instructors on grades.InstructorCWID = instructors.CWID) order by Student_Name ASC"""
 
-    db: sqlite3.Connection = sqlite3.connect(DB_FILE)
-    query: str = """select students.Name as Student_Name, students.CWID, grades.Course, grades.Grade, instructors.Name as Instructor_Name \
-                from ((students inner join grades on students.CWID = grades.StudentCWID) \
-                inner join instructors on grades.InstructorCWID = instructors.CWID) order by Student_Name ASC"""
+        data: Dict[str, str] = \
+            [{"name": name, "cwid": cwid, "major": major, "grade": grade, "instructor": instructor} 
+                for name, cwid, major, grade, instructor in db.execute(query)]
 
-    data: Dict[str, str] = \
-        [{"name": name, "cwid": cwid, "major": major, "grade": grade, "instructor": instructor} 
-            for name, cwid, major, grade, instructor in db.execute(query)]
-
-    db.close()
+        db.close()
 
     return render_template(
         'students_summary.html',
